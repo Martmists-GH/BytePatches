@@ -1,7 +1,7 @@
 from itertools import zip_longest
 from typing import List, Union
 
-from bytepatches.ops import Opcode, sync_ops, LOAD_FAST, STORE_FAST, JumpOp, LOAD_NAME, LOAD_CONST, STORE_NAME
+from bytepatches.ops import Opcode, sync_ops, LOAD_FAST, STORE_FAST, JumpOp, LOAD_NAME, STORE_NAME
 from bytepatches.parser import Parser
 from bytepatches.utils import patch_function, make_bytecode
 
@@ -21,7 +21,7 @@ def change_ops(ops: List[Opcode], ops_before: List[Opcode], ops_after: List[Opco
                 raise OpNotFound("Ops not found!")
             break
 
-        target = ops[index:index+len(ops_before)]
+        target = ops[index:index + len(ops_before)]
 
         if target == ops_before:
             for existing, op in zip(target, ops_before):

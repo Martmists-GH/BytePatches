@@ -1,10 +1,9 @@
-import dis
 from contextlib import suppress
 from typing import List, Union
 
 from bytepatches.op_replacer import replace as rep, change_ops as change, OpNotFound, optimize_access
 from bytepatches.ops import POP_TOP, RETURN_VALUE, LOAD_CONST, JUMP_FORWARD, sync_ops, LOAD_FAST, \
-    LOAD_NAME, STORE_NAME, STORE_FAST, POP_BLOCK, JUMP_ABSOLUTE, pretty_printer, Opcode
+    LOAD_NAME, STORE_NAME, STORE_FAST, POP_BLOCK, JUMP_ABSOLUTE, Opcode
 from bytepatches.utils import get_ops, patch_function, make_bytecode
 
 
@@ -17,6 +16,7 @@ def replace(before: Union[str, List[Opcode]], after: Union[str, List[Opcode]]):
     def decorator(func):
         rep(func, before, after, True)
         return func
+
     return decorator
 
 

@@ -14,7 +14,7 @@ def b(byte: int) -> bytes:
 def sync_ops(ops: List['Opcode']):
     for pos, op in enumerate(ops):
         if op is not None:
-            op.set_bytecode_pos(pos*2)
+            op.set_bytecode_pos(pos * 2)
     for op in ops:
         if hasattr(op, "load"):
             op.load(ops)
@@ -110,7 +110,7 @@ class Opcode:
         return str(self.bytecode_pos) + " " + arg
 
     def __pformat__(self, indent: int) -> str:
-        args = (self.arg, self.val) if self.val is not None else (self.arg, )
+        args = (self.arg, self.val) if self.val is not None else (self.arg,)
         formatted = (f"{self.op_name}[{self._arg}](\n" +
                      textwrap.indent(",\n".join(map(pretty_printer.pformat, args)), " " * (4 + indent)) +
                      "\n" + " " * indent + ")")
@@ -134,7 +134,7 @@ class JumpOp(Opcode):
             if self.reljump():
                 target_op_pos = (self.bytecode_pos + self._arg + 2) / 2
             else:
-                target_op_pos = self._arg/2
+                target_op_pos = self._arg / 2
             self.val = ops[int(target_op_pos)]
         else:
             if self.reljump():

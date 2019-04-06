@@ -207,12 +207,12 @@ class Parser:
                     self.add_op(op, [arg, self.pop(-2), self.pop()])
 
                 else:
-                    self.seek(self.tell()-2)
+                    self.seek(self.tell() - 2)
                     import dis
                     dis.dis(self.read())
                     raise Exception(f"Unhandled opcode {opcode} with argument {arg}")
 
-                self.last().set_bytecode_pos(int(pos/2))
+                self.last().set_bytecode_pos(int(pos / 2))
 
             else:
                 break
