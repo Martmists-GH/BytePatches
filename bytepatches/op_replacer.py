@@ -39,7 +39,9 @@ def change_ops(ops: List[Opcode], ops_before: List[Opcode], ops_after: List[Opco
         for before, after in zip_longest(ops_before, ops_after):
             if after is not None:
                 if isinstance(after._arg, str):
-                    after = _cache[after._arg].pop(0)
+                    target = _cache[after._arg].pop(0)
+                    cls = type(after)
+                    after = cls(target._arg, target.arg, target.val)
 
             if before is None:
                 # Append after
