@@ -73,6 +73,9 @@ class Opcode:
         self.val = val_obj
 
     def __eq__(self, other):
+        if other is None:
+            return True
+
         if not isinstance(other, Opcode):
             return False
 
@@ -140,6 +143,9 @@ class JumpOp(Opcode):
                 self._target = self.val.bytecode_pos
 
 
+# TODO: Add all opcodes
+
+
 class NOP(Opcode):
     op_byte = b(0)
 
@@ -175,8 +181,13 @@ class BINARY_FLOOR_DIVIDE(Opcode):
 class BINARY_TRUE_DIVIDE(Opcode):
     op_byte = b(27)
 
+
 class GET_ITER(Opcode):
     op_byte = b(68)
+
+
+class BREAK_LOOP(Opcode):
+    op_byte = b(80)
 
 
 class RETURN_VALUE(Opcode):

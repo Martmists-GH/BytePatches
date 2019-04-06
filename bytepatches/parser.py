@@ -79,6 +79,9 @@ class Parser:
                 self.seek(pos)
                 opcode, arg = self.unpack("BB")
                 op = ops.get(opcode)
+
+                # TODO: Add all opcodes
+
                 if opcode == 1:
                     # POP_TOP
                     self.add_op(op, [arg])
@@ -113,6 +116,10 @@ class Parser:
                 elif opcode == 68:
                     # GET_ITER
                     self.add_op(op, [arg, self.pop()])
+
+                elif opcode == 80:
+                    # BREAK_LOOP
+                    self.add_op(op, [arg])
 
                 elif opcode == 83:
                     # RETURN_VALUE

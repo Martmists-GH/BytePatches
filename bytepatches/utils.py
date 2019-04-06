@@ -17,16 +17,17 @@ def get_ops(code: str, tree: bool = False):
 
 def patch_function(func, payload: bytes, consts=None, names=None, varnames=None):
     fn_code = func.__code__
+    vars = varnames or fn_code.co_varnames
     func.__code__ = CodeType(
         fn_code.co_argcount,
         fn_code.co_kwonlyargcount,
-        fn_code.co_nlocals,
+        len(vars),
         fn_code.co_stacksize,
         fn_code.co_flags,
         payload,
         consts or fn_code.co_consts,
         names or fn_code.co_names,
-        varnames or fn_code.co_varnames,
+        vars,
         fn_code.co_filename,
         fn_code.co_name,
         fn_code.co_firstlineno,

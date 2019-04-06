@@ -1,13 +1,15 @@
+import dis
+
 from bytepatches.decorators import omit_return, replace, optimize
+from bytepatches.ops import RETURN_VALUE, BREAK_LOOP
 
 if __name__ == "__main__":
     @replace("p=1", "p=3")
     @replace("p-3", "p-4")
     def f():
         p = 1
-        # Removed print for debugging clutter
-        # it does work however
-        # print(p)
+        print = lambda x: None
+        print(p)
         return p - 3
 
     assert f() == -1
@@ -36,6 +38,16 @@ if __name__ == "__main__":
     assert choose(False, 1, 2) == 2
     assert choose(None, 1, 2) is None
 
+    @omit_return
+    def loop_return(x):
+        for i in range(10):
+            if i > 3:
+                i + x
+            else:
+                x - i
+
+    assert loop_return(5) == 14
+
     # The next function should get optimized
     @optimize
     def unoptimized_func():
@@ -49,6 +61,7 @@ if __name__ == "__main__":
 
     assert optimized_func.__code__.co_code == unoptimized_func.__code__.co_code
 
+    # Test by juanita
     @optimize
     def juanita_test():
         for i in range(10):
@@ -62,8 +75,4 @@ if __name__ == "__main__":
 
         return j
 
-    print("Two bytes off [14]                  V            V")
-    print(juanita_test.__code__.co_code)
-    print(juanita_optimized.__code__.co_code)
-    # FIXME: Fails, see decorators.py:41
-    # assert juanita_test.__code__.co_code == juanita_optimized.__code__.co_code
+    assert juanita_test.__code__.co_code == juanita_optimized.__code__.co_code
