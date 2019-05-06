@@ -174,6 +174,10 @@ class BINARY_SUBTRACT(Opcode):
     op_byte = b(24)
 
 
+class BINARY_SUBSCR(Opcode):
+    op_byte = b(25)
+
+
 class BINARY_FLOOR_DIVIDE(Opcode):
     op_byte = b(26)
 
@@ -194,6 +198,10 @@ class RETURN_VALUE(Opcode):
     op_byte = b(83)
 
 
+class YIELD_VALUE(Opcode):
+    op_byte = b(86)
+
+
 class POP_BLOCK(Opcode):
     op_byte = b(87)
 
@@ -206,12 +214,20 @@ class FOR_ITER(JumpOp):  # JumpOp because it has a referenced target
     op_byte = b(93)
 
 
+class STORE_ATTR(Opcode):
+    op_byte = b(95)
+
+
 class LOAD_CONST(Opcode):
     op_byte = b(100)
 
 
 class LOAD_NAME(Opcode):
     op_byte = b(101)
+
+
+class LOAD_ATTR(Opcode):
+    op_byte = b(106)
 
 
 class COMPARE_OP(Opcode):
@@ -222,8 +238,16 @@ class IMPORT_NAME(Opcode):
     op_byte = b(108)
 
 
+class IMPORT_FROM(Opcode):
+    op_byte = b(109)
+
+
 class JUMP_FORWARD(JumpOp):
     op_byte = b(110)
+
+
+class JUMP_IF_TRUE_OR_POP(JumpOp):
+    op_byte = b(112)
 
 
 class JUMP_ABSOLUTE(JumpOp):

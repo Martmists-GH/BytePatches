@@ -106,7 +106,12 @@ class Parser:
                     # BINARY_SUBTRACT
                     self.add_op(op, [arg, self.pop(-2), self.pop()])
 
+                elif opcode == 25:
+                    # BINARY_SUBSCR
+                    self.add_op(op, [arg, self.pop(-2), self.pop()])
+
                 elif opcode == 26:
+                    # BINARY_FLOOR_DIVIDE
                     self.add_op(op, [arg, self.pop(-2), self.pop()])
 
                 elif opcode == 27:
@@ -125,6 +130,10 @@ class Parser:
                     # RETURN_VALUE
                     self.add_op(op, [arg, self.pop()])
 
+                elif opcode == 86:
+                    # YIELD_VALUE
+                    self.add_op(op, [arg, self.pop()])
+
                 elif opcode == 87:
                     # POP_BLOCK
                     self.add_op(op, [arg])
@@ -137,6 +146,10 @@ class Parser:
                     # FOR_ITER
                     self.add_op(op, [arg])
 
+                elif opcode == 95:
+                    # STORE_ATTR
+                    self.add_op(op, [arg, (self.pop(), self.ctx.load_name(arg)), self.pop()])
+
                 elif opcode == 100:
                     # LOAD_CONST
                     self.add_op(op, [arg, self.ctx.load_const(arg)])
@@ -144,6 +157,10 @@ class Parser:
                 elif opcode == 101:
                     # LOAD_NAME
                     self.add_op(op, [arg, self.ctx.load_name(arg)])
+
+                elif opcode == 106:
+                    # LOAD_ATTR
+                    self.add_op(op, [arg, self.pop(), self.ctx.load_name(arg)])
 
                 elif opcode == 107:
                     # COMPARE_OP
@@ -153,9 +170,17 @@ class Parser:
                     # IMPORT_NAME
                     self.add_op(op, [arg, self.ctx.load_name(arg)])
 
+                elif opcode == 109:
+                    # IMPORT_FROM
+                    self.add_op(op, [arg, self.pop(), self.pop()])
+
                 elif opcode == 110:
                     # JUMP_FORWARD
                     self.add_op(op, [arg])
+
+                elif opcode == 112:
+                    # JUMP_IF_TRUE_OR_POP
+                    self.add_op(op, [arg, self.pop()])
 
                 elif opcode == 113:
                     # JUMP_ABSOLUTE
@@ -179,7 +204,8 @@ class Parser:
 
                 elif opcode == 125:
                     # STORE_FAST
-                    self.add_op(op, [arg, self.ctx.load_fast(arg), self.pop()])
+                    # self.add_op(op, [arg, self.ctx.load_fast(arg), self.pop()])
+                    self.add_op(op, [arg, self.ctx.load_fast(arg)])
 
                 elif opcode == 131:
                     # CALL_FUNCTION
@@ -204,7 +230,8 @@ class Parser:
 
                 elif opcode == 161:
                     # CALL_METHOD
-                    self.add_op(op, [arg, self.pop(-2), self.pop()])
+                    args = tuple(self.pop() for _ in range(arg))
+                    self.add_op(op, [arg, self.pop(), args])
 
                 else:
                     self.seek(self.tell() - 2)
