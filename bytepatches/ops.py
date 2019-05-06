@@ -1,4 +1,5 @@
 import dis
+import sys
 import textwrap
 from pprint import PrettyPrinter
 from struct import pack, unpack
@@ -53,7 +54,7 @@ class Context:
             c = self.consts[const]
             if c.__class__.__name__ == "code":
                 from bytepatches.parser import Parser
-                return Parser(c).parse_bytecode()
+                return Parser(c).parse_bytecode(sys._getframe().f_back.f_locals["tree"])
             return c
         return const
 
