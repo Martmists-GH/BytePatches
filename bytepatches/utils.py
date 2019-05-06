@@ -1,5 +1,6 @@
 import sys
-from pprint import pprint
+import matplotlib.pyplot
+from matplotlib.pyplot import plot, legend
 from types import CodeType
 from typing import List
 

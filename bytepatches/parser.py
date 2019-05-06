@@ -168,11 +168,14 @@ class Parser:
 
                 elif opcode == 108:
                     # IMPORT_NAME
-                    self.add_op(op, [arg, self.ctx.load_name(arg)])
+                    imported_names = self.pop()
+                    unknown_val = self.pop()
+                    print(imported_names, unknown_val)
+                    self.add_op(op, [arg, self.ctx.load_name(arg), []])
 
                 elif opcode == 109:
                     # IMPORT_FROM
-                    self.add_op(op, [arg, self.pop(), self.pop()])
+                    self.add_op(op, [arg, self.ctx.load_name(arg)])
 
                 elif opcode == 110:
                     # JUMP_FORWARD
@@ -204,8 +207,7 @@ class Parser:
 
                 elif opcode == 125:
                     # STORE_FAST
-                    # self.add_op(op, [arg, self.ctx.load_fast(arg), self.pop()])
-                    self.add_op(op, [arg, self.ctx.load_fast(arg)])
+                    self.add_op(op, [arg, self.ctx.load_fast(arg), self.pop()])
 
                 elif opcode == 131:
                     # CALL_FUNCTION

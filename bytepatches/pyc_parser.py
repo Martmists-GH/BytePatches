@@ -53,7 +53,6 @@ class PycParser:
     def parse_body(self):
         # TODO
         self.content = Parser(self.content).parse_bytecode(True)
-        pretty_printer.pprint(self.content)
 
 
 if __name__ == "__main__":

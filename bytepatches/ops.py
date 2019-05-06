@@ -6,6 +6,7 @@ from struct import pack, unpack
 from typing import Any, List, Union
 
 VERBOSE = True
+LINE_NUMBERS = False
 
 
 def b(byte: int) -> bytes:
@@ -108,14 +109,19 @@ class Opcode:
             arg = f"{self.op_name}[{self._arg}]({self.arg}, {self.val})"
         else:
             arg = f"{self.op_name}[{self._arg}]({self.arg})"
-        return str(self.bytecode_pos) + " " + arg
+
+        if LINE_NUMBERS:
+            arg = f"{self.bytecode_pos} {arg}"
+        return arg
 
     def __pformat__(self, indent: int) -> str:
         args = (self.arg, self.val) if self.val is not None else (self.arg,)
         formatted = (f"{self.op_name}[{self._arg}](\n" +
                      textwrap.indent(",\n".join(map(pretty_printer.pformat, args)), " " * (4 + indent)) +
                      "\n" + " " * indent + ")")
-        return str(self.bytecode_pos) + " " + formatted
+        if LINE_NUMBERS:
+            formatted = f"{self.bytecode_pos} {formatted}"
+        return formatted
 
 
 class JumpOp(Opcode):

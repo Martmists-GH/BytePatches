@@ -65,7 +65,6 @@ if __name__ == "__main__":
     def optimized_func():
         return 1
 
-
     assert optimized_func.__code__.co_code == unoptimized_func.__code__.co_code
 
 
